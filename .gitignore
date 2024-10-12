@@ -1,0 +1,13 @@
+*.aux
+*.log
+*.out
+*.toc
+*.snm
+*.vrb
+*.nav
+*.snm
+*.gz
+.venv
+venv
+figures
+*.pdf
