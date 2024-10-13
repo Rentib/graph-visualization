@@ -37,5 +37,77 @@ def gen_bipartite():
     pos = nx.bipartite_layout(G, top)
     draw_graph(G, pos, "./figures/bipartite.pgf")
 
+def gen_bfs():
+    G = nx.gnm_random_graph(10, 15, seed=420)
+    pos = nx.bfs_layout(G, 0)
+    draw_graph(G, pos, "./figures/bfs.pgf")
+
+def gen_circular():
+    G = nx.cycle_graph(10)
+    G.add_edges_from([(0, 5), (1, 6), (4, 7)])
+    pos = nx.circular_layout(G)
+    draw_graph(G, pos, "./figures/circular.pgf")
+
+def gen_spring():
+    G = nx.Graph()
+    G.add_edges_from([
+        (1, 2), (1, 3), (2, 4), (2, 5), (2, 6),
+        (3, 5), (3, 6), (4, 7), (4, 8), (5, 7),
+        (5, 8), (6, 7), (6, 8), (7, 9), (8, 9)
+    ])
+    pos = nx.spring_layout(G)
+    draw_graph(G, pos, "./figures/spring.pgf")
+
+def gen_arf():
+    G = nx.Graph()
+    G.add_edges_from([
+        (1, 2), (1, 3), (2, 4), (2, 5), (2, 6),
+        (3, 5), (3, 6), (4, 7), (4, 8), (5, 7),
+        (5, 8), (6, 7), (6, 8), (7, 9), (8, 9)
+    ])
+    pos = nx.arf_layout(G)
+    draw_graph(G, pos, "./figures/arf.pgf")
+
+def gen_forceatlas2():
+    G = nx.Graph()
+    G.add_edges_from([
+        (1, 2), (1, 3), (2, 4), (2, 5), (2, 6),
+        (3, 5), (3, 6), (4, 7), (4, 8), (5, 7),
+        (5, 8), (6, 7), (6, 8), (7, 9), (8, 9)
+    ])
+    pos = nx.forceatlas2_layout(G)
+    draw_graph(G, pos, "./figures/forceatlas2.pgf")
+
+def gen_kamada_kawai():
+    G = nx.Graph()
+    G.add_edges_from([
+        (1, 2), (1, 3), (2, 4), (2, 5), (2, 6),
+        (3, 5), (3, 6), (4, 7), (4, 8), (5, 7),
+        (5, 8), (6, 7), (6, 8), (7, 9), (8, 9)
+    ])
+    pos = nx.kamada_kawai_layout(G)
+    draw_graph(G, pos, "./figures/kamada_kawai.pgf")
+
+def generate_random_planar_graph(n, m):
+    seed = 69
+    while True:
+        G = nx.gnm_random_graph(n, m, seed=seed)
+        seed += 1
+        is_planar, _ = nx.check_planarity(G)
+        if is_planar:
+            return G
+
+def gen_planar():
+    G = generate_random_planar_graph(10, 15)
+    pos = nx.planar_layout(G)
+    draw_graph(G, pos, "./figures/planar.pgf")
+
 gen_fig1()
 gen_bipartite()
+gen_bfs()
+gen_circular()
+gen_spring()
+gen_arf()
+gen_forceatlas2()
+gen_kamada_kawai()
+gen_planar()
