@@ -18,8 +18,7 @@ G.add_edges_from([
 ])
 pos = nx.bfs_layout(G, 1)
 
-nx.draw(
-        G,
+nx.draw(G,
         pos,
         with_labels=True,
         node_color='white',
