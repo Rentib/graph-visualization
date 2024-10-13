@@ -102,12 +102,46 @@ def gen_planar():
     pos = nx.planar_layout(G)
     draw_graph(G, pos, "./figures/planar.pgf")
 
-gen_fig1()
-gen_bipartite()
-gen_bfs()
-gen_circular()
-gen_spring()
-gen_arf()
-gen_forceatlas2()
-gen_kamada_kawai()
-gen_planar()
+def gen_shell():
+    G = nx.Graph()
+    G.add_edges_from([
+        (1, 2), (1, 3), (2, 4), (2, 5), (2, 6),
+        (3, 5), (3, 6), (4, 7), (4, 8), (5, 7),
+        (5, 8), (6, 7), (6, 8), (7, 9), (8, 9)
+    ])
+    pos = nx.shell_layout(G)
+    draw_graph(G, pos, "./figures/shell.pgf")
+
+def gen_spectral():
+    G = nx.Graph()
+    G.add_edges_from([
+        (1, 2), (1, 3), (2, 4), (2, 5), (2, 6),
+        (3, 5), (3, 6), (4, 7), (4, 8), (5, 7),
+        (5, 8), (6, 7), (6, 8), (7, 9), (8, 9)
+    ])
+    pos = nx.spectral_layout(G)
+    draw_graph(G, pos, "./figures/spectral.pgf")
+
+def gen_spiral():
+    G = nx.Graph()
+    G.add_edges_from([
+        (1, 2), (1, 3), (2, 4), (2, 5), (2, 6),
+        (3, 5), (3, 6), (4, 7), (4, 8), (5, 7),
+        (5, 8), (6, 7), (6, 8), (7, 9), (8, 9)
+    ])
+    pos = nx.spiral_layout(G)
+    draw_graph(G, pos, "./figures/spiral.pgf")
+
+# gen_fig1()
+# gen_bipartite()
+gen_multipartite()
+# gen_bfs()
+# gen_circular()
+# gen_spring()
+# gen_arf()
+# gen_forceatlas2()
+# gen_kamada_kawai()
+# gen_planar()
+# gen_shell()
+# gen_spectral()
+# gen_spiral()
