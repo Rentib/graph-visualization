@@ -172,6 +172,34 @@ pos = nx.bfs_layout(G, 1)
 
 \subsection{Overview}
 \begin{frame}{\subsecname}
+    \begin{block}{Algorithms}
+        NetworkX provides several algorithms for graph visualization, focusing
+        on different layout strategies to represent nodes and edges effectively.
+    \end{block}
+
+    \pause
+    \begin{block}{Eye candy}
+        \begin{itemize}
+            \pause
+            \item Nodes, edges, labels, and other graph elements
+            \pause
+            \item Custom positioning
+            \pause
+            \item Flexible styling
+        \end{itemize}
+    \end{block}
+
+    \pause
+    \begin{block}{Support}
+        \begin{itemize}
+            \pause
+            \item Image, PDF, SVG, and other formats
+            \pause
+            \item Interactive visualization using matplotlib
+            \pause
+            \item \textbf{LaTeX} (Tikz, PGF)
+        \end{itemize}
+    \end{block}
 \end{frame}
 
 \subsection{Bipartite}
@@ -216,17 +244,6 @@ pos = nx.bfs_layout(G, 1)
 
     \pause
     \resizebox{0.8\textwidth}{!}{\input{figures/planar.pgf}}
-\end{frame}
-
-\subsection{Shell}
-\begin{frame}{\subsecname}
-    \begin{block}{Algorithm}
-        % TODO: describe this algorithm
-        Do magic
-    \end{block}
-
-    \pause
-    \resizebox{0.8\textwidth}{!}{\input{figures/shell.pgf}}
 \end{frame}
 
 \subsection{Spectral}
