@@ -31,4 +31,11 @@ def gen_fig1():
     pos = nx.bfs_layout(G, 1)
     draw_graph(G, pos, "./figures/fig1.pgf")
 
+def gen_bipartite():
+    G = nx.bipartite.gnmk_random_graph(4, 5, 11, seed=69)
+    top = nx.bipartite.sets(G)[0]
+    pos = nx.bipartite_layout(G, top)
+    draw_graph(G, pos, "./figures/bipartite.pgf")
+
 gen_fig1()
+gen_bipartite()
