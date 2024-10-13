@@ -9,6 +9,7 @@
 \usepackage{tikz}                            % rysowanie i grafy https://tikz.dev/tikz, https://centrality.mimuw.edu.pl/editor
 \usepackage{pgf}
 \usepackage{graphicx}
+\usepackage{algorithm,algpseudocode}
 
 \title{NetworkX Graph Visualization}
 \author{Stanisław Bitner, Aleksander Wojsz}
@@ -27,12 +28,6 @@
 
 \lstset{basicstyle=\ttfamily\footnotesize,keywordstyle=\color{magenta},tabsize=2,escapeinside=||,mathescape=true}
 
-\AtBeginSection[] {
-    \begin{frame}{\secname}
-        \tableofcontents[currentsection,hideothersubsections,sectionstyle=hide]
-    \end{frame}
-}
-
 \begin{document}
 
 \frame{\titlepage}
@@ -43,6 +38,9 @@
 \end{frame}
 
 \section{Intro}
+\begin{frame}{\secname}
+    \tableofcontents[currentsection,hideothersubsections,sectionstyle=hide]
+\end{frame}
 
 \subsection{Math Representation}
 \begin{frame}{\subsecname}
@@ -55,6 +53,30 @@
             &\{ 5, 8 \}, \{ 6, 7 \}, \{ 6, 8 \}, \{ 7, 9 \}, \{ 8, 9 \}\\
         \}
     \end{align*}
+    
+    \pause\center\Huge\textcolor{red}{TERRIBLE!!!}
+\end{frame}
+
+\subsection{Problem statement}
+\begin{frame}{\subsecname}
+    \begin{block}{Input}
+        Graph $G = \langle V,E \rangle$
+    \end{block}
+    \pause
+    \begin{block}{Output}
+        Clear and readable drawing of $G$ (we focus on straight-line edges).
+    \end{block}
+    \pause
+    \begin{block}{Criteria}
+        \begin{itemize}
+            \pause\item adjacent vertices close
+            \pause\item non-adjacent vertices distant
+            \pause\item short and similar in length edges
+            \pause\item as few crossings as possible
+            \pause\item nodes distributed evenly
+            \pause\item clusters together
+        \end{itemize}
+    \end{block}
 \end{frame}
 
 \subsection{Hand Drawing}
@@ -154,7 +176,7 @@
 \end{figure}
 \end{frame}
 
-\begin{frame}[fragile]{\subsecname}
+\begin{frame}[fragile]{\subsecname}{Code}
     \begin{block}{}
         \begin{lstlisting}[language=python]
 G = nx.Graph()
@@ -169,6 +191,9 @@ pos = nx.bfs_layout(G, 1)
 \end{frame}
 
 \section{How is it done?}
+\begin{frame}{\secname}
+    \tableofcontents[currentsection,hideothersubsections,sectionstyle=hide]
+\end{frame}
 
 \subsection{Overview}
 \begin{frame}{\subsecname}
@@ -235,41 +260,56 @@ pos = nx.bfs_layout(G, 1)
     \resizebox{0.8\textwidth}{!}{\input{figures/circular.pgf}}
 \end{frame}
 
+\subsection{Force-directed drawings}
+\begin{frame}{\subsecname}
+    \begin{block}{Analogy to physics}
+        \small Edges are \textit{springs}, vertices are \textit{repelling objects}.
+    \end{block}
+    \pause
+    \begin{block}{}
+        \scriptsize
+        \begin{algorithmic}
+            \Function{ForceDirected}{$G = \langle V, E \rangle, p = (p_v)_{v \in V}, \varepsilon > 0, K \in \mathbb{N}$}
+                \onslide<3->{\State $l \gets 1$
+                \While{$l < K \land \max\limits_{v \in V} \|F_v(t)\| > \varepsilon$}
+                    \onslide<4->{
+                    \ForAll{$u \in V$}
+                        \onslide<5->{\State $F_u(t) \gets \sum\limits_{v \in V} f_{\text{rep}}(u, v) + \sum\limits_{uv \in E} f_{\text{attr}}(u, v)$}
+                    \EndFor
+                    }
+                    \onslide<6->{
+                    \ForAll{$u \in V$}
+                        \onslide<7->{\State $p_u \gets p_u + \delta(t) \cdot F_u(t)$}
+                    \EndFor}
+                    \State $l \gets l + 1$
+                \EndWhile}
+                \State \Return $p$
+            \EndFunction
+        \end{algorithmic}
+    \end{block}
+\end{frame}
+
 \subsection{Planar}
 \begin{frame}{\subsecname}
     \begin{block}{Algorithm}
-        % TODO: describe this algorithm
-        Do magic
+        We could use Tutte: First select planar face. Then each vertex wants to
+        be in the barycenter of it's neighbours.
     \end{block}
 
     \pause
-    \resizebox{0.8\textwidth}{!}{\input{figures/planar.pgf}}
-\end{frame}
-
-\subsection{Spectral}
-\begin{frame}{\subsecname}
-    \begin{block}{Algorithm}
-        % TODO: describe this algorithm
-        Do magic
-    \end{block}
-
-    \pause
-    \resizebox{0.8\textwidth}{!}{\input{figures/spectral.pgf}}
+    \resizebox{0.7\textwidth}{!}{\input{figures/planar.pgf}}
 \end{frame}
 
 \subsection{Spring}
 \begin{frame}{\subsecname}
 
     \begin{block}{Fruchterman-Reingold force-directed algorithm}
-        Edges are \textit{springs} and nodes are \textit{repelling objects}.\\
-        Start with random placement.\\
-        Continue simulation until reaching equilibrium.
+        $f_\text{rep}(v,u)$ -- Coulomb's law\\
+        $f_\text{attr}(v,u)$ -- Hooke's law
     \end{block}
 
-\end{frame}
-
-\begin{frame}{\subsecname}
-    \resizebox{0.8\textwidth}{!}{\input{figures/spring.pgf}}
+    \pause
+    \resizebox{0.75\textwidth}{!}{\input{figures/spring.pgf}}
 \end{frame}
 
 \subsection{ARF}
@@ -297,27 +337,26 @@ pos = nx.bfs_layout(G, 1)
     \resizebox{0.8\textwidth}{!}{\input{figures/arf.pgf}}
 \end{frame}
 
-\subsection{ForceAtlas2}
+\subsection{Spectral}
 \begin{frame}{\subsecname}
-
-    % TODO: describe this algorithm
-
-\end{frame}
-
-\begin{frame}{\subsecname}
-    \resizebox{0.8\textwidth}{!}{\input{figures/forceatlas2.pgf}}
+    \resizebox{0.8\textwidth}{!}{\input{figures/spectral.pgf}}
 \end{frame}
 
 \subsection{Kamada Kawai}
 \begin{frame}{\subsecname}
-\end{frame}
-
-\begin{frame}{\subsecname}
     \resizebox{0.8\textwidth}{!}{\input{figures/kamada_kawai.pgf}}
 \end{frame}
 
-\section{Conclusion}
+\subsection{ForceAtlas2}
+\begin{frame}{\subsecname}
+    \resizebox{0.8\textwidth}{!}{\input{figures/forceatlas2.pgf}}
+\end{frame}
 
-% TODO:
+\section{Conclusion}
+\begin{frame}{\secname}
+    \begin{block}{}
+        NetworkX is \Huge\textcolor{blue}{GREAT!!!}
+    \end{block}
+\end{frame}
 
 \end{document}
