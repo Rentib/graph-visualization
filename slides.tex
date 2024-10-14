@@ -188,6 +188,11 @@ G.add_edges_from([
 pos = nx.bfs_layout(G, 1)
         \end{lstlisting}
     \end{block}
+
+    \pause
+    \begin{block}{Materials for presentation}
+        \url{https://github.com/Rentib/graph-visualization}
+    \end{block}
 \end{frame}
 
 \section{How is it done?}
@@ -242,7 +247,7 @@ pos = nx.bfs_layout(G, 1)
 \begin{frame}{\subsecname}
 
     \begin{block}{Algorithm}
-        Run breadth first search and group nodes by depth.\\
+        Run breadth first search and group nodes by depth.
     \end{block}
 
     \pause
@@ -250,14 +255,15 @@ pos = nx.bfs_layout(G, 1)
 
 \end{frame}
 
-\subsection{Circular}
+\subsection{ForceAtlas2}
 \begin{frame}{\subsecname}
     \begin{block}{Algorithm}
-        Place nodes on a circle.
+        Out of scope for this presentation, but worth mentioning as the results
+        are fantastic.
     \end{block}
 
     \pause
-    \resizebox{0.8\textwidth}{!}{\input{figures/circular.pgf}}
+    \resizebox{0.8\textwidth}{!}{\input{figures/forceatlas2.pgf}}
 \end{frame}
 
 \subsection{Force-directed drawings}
@@ -287,69 +293,6 @@ pos = nx.bfs_layout(G, 1)
             \EndFunction
         \end{algorithmic}
     \end{block}
-\end{frame}
-
-\subsection{Planar}
-\begin{frame}{\subsecname}
-    \begin{block}{Algorithm}
-        We could use Tutte: First select planar face. Then each vertex wants to
-        be in the barycenter of it's neighbours.
-    \end{block}
-
-    \pause
-    \resizebox{0.7\textwidth}{!}{\input{figures/planar.pgf}}
-\end{frame}
-
-\subsection{Spring}
-\begin{frame}{\subsecname}
-
-    \begin{block}{Fruchterman-Reingold force-directed algorithm}
-        $f_\text{rep}(v,u)$ -- Coulomb's law\\
-        $f_\text{attr}(v,u)$ -- Hooke's law
-    \end{block}
-
-    \pause
-    \resizebox{0.75\textwidth}{!}{\input{figures/spring.pgf}}
-\end{frame}
-
-\subsection{ARF}
-\begin{frame}{\subsecname}
-
-    \begin{block}{ARF}
-        The attractive and repulsive forces.
-    \end{block}
-
-    \pause
-    \begin{block}{Improvement against Spring}
-        \begin{itemize}
-            \pause
-            \item prevents congestion of highly connected nodes
-            \pause
-            \item prevents large gaps
-            \pause
-            \item represents symetrics better
-        \end{itemize}
-    \end{block}
-
-\end{frame}
-
-\begin{frame}{\subsecname}
-    \resizebox{0.8\textwidth}{!}{\input{figures/arf.pgf}}
-\end{frame}
-
-\subsection{Spectral}
-\begin{frame}{\subsecname}
-    \resizebox{0.8\textwidth}{!}{\input{figures/spectral.pgf}}
-\end{frame}
-
-\subsection{Kamada Kawai}
-\begin{frame}{\subsecname}
-    \resizebox{0.8\textwidth}{!}{\input{figures/kamada_kawai.pgf}}
-\end{frame}
-
-\subsection{ForceAtlas2}
-\begin{frame}{\subsecname}
-    \resizebox{0.8\textwidth}{!}{\input{figures/forceatlas2.pgf}}
 \end{frame}
 
 \section{Conclusion}

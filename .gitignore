@@ -9,6 +9,5 @@
 *.gz
 .venv
 venv
-*.pdf
 *.fdb_latexmk
 *.fls
